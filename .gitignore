@@ -2,6 +2,7 @@ myenv/
 venv/
 .venv/
 
+
 __pycache__/
 *.py[cod]
 *.so
@@ -38,3 +39,4 @@ checkpoints/
 *.pth
 *.onnx
 *.bin
+
