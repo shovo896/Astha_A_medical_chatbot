@@ -9,3 +9,6 @@ langchain-community==0.3.26
 tqdm==4.67.1
 transformers==4.48.3
 torch==2.2.2
+
+# Pinecone client for vector DB access
+pinecone-client
