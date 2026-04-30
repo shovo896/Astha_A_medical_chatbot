@@ -11,4 +11,4 @@ transformers==4.48.3
 torch==2.2.2
 
 # Pinecone client for vector DB access
-pinecone
+pinecone[asyncio]>=6.0.0,<8.0.0
