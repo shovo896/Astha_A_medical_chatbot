@@ -4,7 +4,37 @@ venv/
 
 __pycache__/
 *.py[cod]
+*.so
 
 .ipynb_checkpoints/
 .DS_Store
 *.log
+
+# Local env / secrets
+.env
+.env.*
+!.env.example
+
+# Python packaging/build artifacts
+build/
+dist/
+*.egg-info/
+
+# Test and tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editor/OS
+.vscode/
+.idea/
+
+# Large data and model artifacts
+data/
+models/
+checkpoints/
+*.pdf
+*.pt
+*.pth
+*.onnx
+*.bin
