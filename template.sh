@@ -1,7 +1,7 @@
 mkdir -p src 
 mkdir -p research 
 
-## creatting files 
+## creating files 
 
 touch src/__init__.py
 touch src/helper.py
@@ -13,3 +13,4 @@ touch research/trials.ipynb
 touch requirements.txt
 
 echo "Project structure created successfully!"
+
