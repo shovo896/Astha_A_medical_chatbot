@@ -11,4 +11,4 @@ transformers==4.48.3
 torch==2.2.2
 
 # Pinecone client for vector DB access
-pinecone-client
+pinecone
