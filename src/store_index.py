@@ -23,3 +23,8 @@ pinecone_api_key=os.getenv("PINECONE_API_KEY")
 pc=Pinecone(api_key=pinecone_api_key, environment="us-west1-gcp")
 
 index_name="medical-chatbot-index"
+
+if not pc.index_exists(index_name):
+    pc.create_index(name=index_name, dimension=384, metric="cosine", serverless=ServerlessSpec(min_node_count=1, max_node_count=1))
+index=pc.Index(index_name=index_name)
+docsearch=PineconeVectorStore(index=index, embedding_function=embeddings, text_key="text")
