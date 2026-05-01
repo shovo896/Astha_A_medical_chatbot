@@ -13,7 +13,8 @@ RUN apt-get update \
 
 COPY requirements.txt .
 RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
+    && pip install -r requirements.txt \
+    && python -c "import numpy, torch; print('numpy', numpy.__version__); print('torch', torch.__version__); torch.tensor([1.0]).numpy()"
 
 COPY . .
 
