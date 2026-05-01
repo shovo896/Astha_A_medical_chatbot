@@ -40,8 +40,10 @@ def get_rag_chain():
         )
 
         chat_model = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.2)
-        question_answer_chain = create_stuff_documents_chain(chat_model, prompt)
-        _rag_chain = create_retrieval_chain(retriever, question_answer_chain)
+        _rag_chain = create_retrieval_chain(
+            retriever,
+            create_stuff_documents_chain(chat_model, prompt),
+        )
 
     return _rag_chain
 
