@@ -7,6 +7,7 @@ on:
 env:
   IMAGE_TAG: latest
   CONTAINER_NAME: astha-medical-chatbot
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   Continuous-Integration:
