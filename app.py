@@ -55,11 +55,12 @@ def index():
 
 @app.route("/get", methods=["POST"])
 def chat():
+    data = request.get_json(silent=True) or {}
     user_message = (
         request.form.get("msg")
         or request.form.get("message")
-        or (request.get_json(silent=True) or {}).get("message")
-        or (request.get_json(silent=True) or {}).get("input")
+        or data.get("message")
+        or data.get("input")
     )
 
     if not user_message:
@@ -74,4 +75,6 @@ def chat():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    port = int(os.getenv("PORT", "8080"))
+    debug = os.getenv("FLASK_DEBUG", "0") == "1"
+    app.run(host="0.0.0.0", port=port, debug=debug)
