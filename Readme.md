@@ -193,6 +193,8 @@ Live app format:
 http://YOUR_EC2_PUBLIC_IP:8080
 ```
 
+> Deployment status note: the previous EC2 instance used for this project was terminated to avoid ongoing AWS charges. To deploy again, create a new EC2 instance, install Docker, configure a new self-hosted GitHub runner, update the security group, and rerun the GitHub Actions workflow.
+
 Make sure the EC2 security group allows:
 
 ```text
