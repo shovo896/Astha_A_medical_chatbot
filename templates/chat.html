@@ -22,10 +22,10 @@
 
       <section class="topics">
         <h2>Try Asking</h2>
-        <button class="topic">What is acne?</button>
-        <button class="topic">Symptoms of bruxism</button>
-        <button class="topic">Treatment for burns</button>
-        <button class="topic">Explain abscess</button>
+        <button class="topic" type="button" data-question="What is acne?">What is acne?</button>
+        <button class="topic" type="button" data-question="What are the symptoms of bruxism?">Symptoms of bruxism</button>
+        <button class="topic" type="button" data-question="What is the treatment for burns?">Treatment for burns</button>
+        <button class="topic" type="button" data-question="Explain abscess">Explain abscess</button>
       </section>
 
       <p class="note">
@@ -43,7 +43,7 @@
       </header>
 
       <section class="chat-shell">
-        <div class="messages">
+        <div class="messages" id="messages">
           <article class="message bot">
             <div class="avatar">A</div>
             <div class="bubble">
@@ -51,33 +51,97 @@
               Hi, I am ready to help with medical questions from your knowledge base. What would you like to know?
             </div>
           </article>
-
-          <article class="message user">
-            <div class="avatar">U</div>
-            <div class="bubble">What is ache?</div>
-          </article>
-
-          <article class="message bot">
-            <div class="avatar">A</div>
-            <div class="bubble">
-              <strong>Astha Assistant</strong>
-              Ask about a condition, symptom, diagnosis, treatment, or prevention topic. I will keep the answer focused and clear.
-            </div>
-          </article>
-
-          <div class="quick-actions">
-            <button type="button">Symptoms</button>
-            <button type="button">Treatment</button>
-            <button type="button">Prevention</button>
-          </div>
         </div>
       </section>
 
-      <form class="composer">
-        <input type="text" placeholder="Type your medical question..." aria-label="Type your medical question" />
-        <button type="submit" aria-label="Send message">→</button>
+      <form class="composer" id="chat-form">
+        <input id="message-input" name="message" type="text" placeholder="Type your medical question..." aria-label="Type your medical question" autocomplete="off" />
+        <button id="send-button" type="submit" aria-label="Send message">→</button>
       </form>
     </main>
   </div>
+
+  <script>
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("message-input");
+    const messages = document.getElementById("messages");
+    const sendButton = document.getElementById("send-button");
+
+    function addMessage(role, text, loading = false) {
+      const article = document.createElement("article");
+      article.className = `message ${role}${loading ? " loading" : ""}`;
+
+      const avatar = document.createElement("div");
+      avatar.className = "avatar";
+      avatar.textContent = role === "user" ? "U" : "A";
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+
+      if (role === "bot") {
+        const strong = document.createElement("strong");
+        strong.textContent = "Astha Assistant";
+        bubble.appendChild(strong);
+      }
+
+      bubble.appendChild(document.createTextNode(text));
+      article.appendChild(avatar);
+      article.appendChild(bubble);
+      messages.appendChild(article);
+      messages.scrollTop = messages.scrollHeight;
+
+      return article;
+    }
+
+    async function sendMessage(message) {
+      const cleanMessage = message.trim();
+      if (!cleanMessage) return;
+
+      addMessage("user", cleanMessage);
+      input.value = "";
+      input.disabled = true;
+      sendButton.disabled = true;
+
+      const loadingMessage = addMessage("bot", "Thinking...", true);
+
+      try {
+        const response = await fetch("/get", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: cleanMessage }),
+        });
+
+        const data = await response.json();
+        loadingMessage.remove();
+
+        if (!response.ok) {
+          addMessage("bot", data.error || "Sorry, something went wrong.");
+          return;
+        }
+
+        addMessage("bot", data.answer || "I do not know.");
+      } catch (error) {
+        loadingMessage.remove();
+        addMessage("bot", "Network error. Please try again.");
+      } finally {
+        input.disabled = false;
+        sendButton.disabled = false;
+        input.focus();
+      }
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      sendMessage(input.value);
+    });
+
+    document.querySelectorAll("[data-question]").forEach((button) => {
+      button.addEventListener("click", () => {
+        sendMessage(button.dataset.question);
+      });
+    });
+  </script>
 </body>
 </html>

@@ -181,6 +181,11 @@ body {
   align-items: flex-start;
 }
 
+.message.loading .bubble {
+  color: var(--muted);
+  font-style: italic;
+}
+
 .avatar {
   width: 38px;
   height: 38px;
@@ -275,6 +280,11 @@ body {
   min-height: 48px;
 }
 
+.composer input:disabled {
+  color: var(--muted);
+  background: transparent;
+}
+
 .composer button {
   width: 52px;
   height: 48px;
@@ -290,6 +300,12 @@ body {
 .composer button:hover {
   background: var(--primary-dark);
   transform: translateY(-1px);
+}
+
+.composer button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+  transform: none;
 }
 
 @media (max-width: 860px) {
