@@ -31,3 +31,8 @@ def filter_to_minimal_docs(docs: List[Document]) -> List[Document]:
         )
         minimal_docs.append(minimal_doc)
     return minimal_docs
+
+def download_embeddings():
+    model_name = "sentence-transformers/all-MiniLM-L6-v2"
+    embeddings = HuggingFaceEmbeddings(model_name=model_name)
+    return embeddings
